@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In to Play</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #loginBox {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+    input {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      background: #00ffcc;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loginBox">
+    <h2>Sign In</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+    <div id="error"></div>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      
+      if (user === "player" && pass === "1234") {
+        // Load the game
+        document.body.innerHTML = `
+          <h1>Click The Box!</h1>
+          <div id="score">Score: 0</div>
+          <div id="gameArea" style="width:600px;height:400px;margin:30px auto;background:#222;position:relative;border:2px solid #fff;">
+            <div id="box" style="width:50px;height:50px;background:red;position:absolute;cursor:pointer;"></div>
+          </div>
+        `;
+
+        const box = document.getElementById("box");
+        const gameArea = document.getElementById("gameArea");
+        const scoreDisplay = document.getElementById("score");
+        let score = 0;
+
+        function moveBox() {
+          const maxX = gameArea.clientWidth - box.clientWidth;
+          const maxY = gameArea.clientHeight - box.clientHeight;
+          const randX = Math.floor(Math.random() * maxX);
+          const randY = Math.floor(Math.random() * maxY);
+          box.style.left = randX + "px";
+          box.style.top = randY + "px";
+        }
+
+        box.addEventListener("click", () => {
+          score++;
+          scoreDisplay.innerText = "Score: " + score;
+          moveBox();
+        });
+
+        moveBox();
+      } else {
+        document.getElementById("error").innerText = "Wrong username or password!";
+      }
+    }
+  </script>
+
+</body>
+</html>
