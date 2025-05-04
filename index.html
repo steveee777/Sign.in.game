@@ -87,17 +87,18 @@
       if (users[user] === pass) {
         currentUser = user;
 
-        // OP SCORE SET for Sarveshwar
         if (currentUser === "Sarveshwar") {
           localStorage.setItem("score_Sarveshwar", 9999999999);
+          score = 9999999999;
+        } else {
+          score = parseInt(localStorage.getItem(`score_${currentUser}`)) || 0;
         }
 
-        score = parseInt(localStorage.getItem(`score_${currentUser}`)) || 0;
         document.getElementById("score").innerText = "Score: " + score;
-
         document.getElementById("login").classList.add("hidden");
         document.getElementById("game").classList.remove("hidden");
         document.getElementById("welcomeUser").innerText = `Hi, ${user}!`;
+
         moveBox();
       } else {
         alert("Incorrect username or password!");
