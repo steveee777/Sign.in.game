@@ -25,7 +25,6 @@
     }
     .hidden { display: none; }
 
-    /* Game Styles */
     #gameArea {
       width: 600px;
       height: 400px;
@@ -78,15 +77,28 @@
       "Vedant": "4554"
     };
 
+    let currentUser = "";
+    let score = 0;
+
     function signIn() {
       const user = document.getElementById("username").value;
       const pass = document.getElementById("password").value;
 
       if (users[user] === pass) {
+        currentUser = user;
+
+        // OP SCORE SET for Sarveshwar
+        if (currentUser === "Sarveshwar") {
+          localStorage.setItem("score_Sarveshwar", 9999999999);
+        }
+
+        score = parseInt(localStorage.getItem(`score_${currentUser}`)) || 0;
+        document.getElementById("score").innerText = "Score: " + score;
+
         document.getElementById("login").classList.add("hidden");
         document.getElementById("game").classList.remove("hidden");
-        document.getElementById("welcomeUser").innerText = `Hi, ${user}!`; // username show
-        moveBox(); // Start game
+        document.getElementById("welcomeUser").innerText = `Hi, ${user}!`;
+        moveBox();
       } else {
         alert("Incorrect username or password!");
       }
@@ -95,7 +107,6 @@
     const box = document.getElementById("box");
     const gameArea = document.getElementById("gameArea");
     const scoreDisplay = document.getElementById("score");
-    let score = 0;
 
     function moveBox() {
       const maxX = gameArea.clientWidth - box.clientWidth;
@@ -109,6 +120,7 @@
     box.addEventListener("click", () => {
       score++;
       scoreDisplay.innerText = "Score: " + score;
+      localStorage.setItem(`score_${currentUser}`, score);
       moveBox();
     });
   </script>
