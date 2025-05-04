@@ -1,98 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign In to Play</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #121212;
+      font-family: sans-serif;
+      text-align: center;
+      background: #111;
       color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      padding-top: 60px;
     }
-    #loginBox {
-      background: #1e1e1e;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #00ffcc;
-    }
-    input {
-      display: block;
-      margin: 10px 0;
+    input, button {
       padding: 10px;
-      width: 100%;
-      border: none;
+      margin: 5px;
       border-radius: 5px;
+      border: none;
     }
     button {
-      padding: 10px;
-      width: 100%;
-      border: none;
-      border-radius: 5px;
-      background: #00ffcc;
-      color: #000;
-      font-weight: bold;
+      background: #00b894;
+      color: white;
       cursor: pointer;
     }
-    #error {
-      color: red;
-      margin-top: 10px;
+    .hidden { display: none; }
+
+    /* Game Styles */
+    #gameArea {
+      width: 600px;
+      height: 400px;
+      margin: 30px auto;
+      background: #222;
+      position: relative;
+      border: 2px solid #fff;
+    }
+    #box {
+      width: 50px;
+      height: 50px;
+      background: red;
+      position: absolute;
+      cursor: pointer;
+    }
+    #score {
+      font-size: 24px;
     }
   </style>
 </head>
 <body>
 
-  <div id="loginBox">
-    <h2>Sign In</h2>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="login()">Login</button>
-    <div id="error"></div>
+  <div id="login">
+    <h2>Sign In to Play</h2>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="signIn()">Sign In</button>
+  </div>
+
+  <div id="game" class="hidden">
+    <h1>Click The Box!</h1>
+    <div id="score">Score: 0</div>
+    <div id="gameArea">
+      <div id="box"></div>
+    </div>
   </div>
 
   <script>
-    function login() {
+    const users = {
+      "Veer": "4567",
+      "Sarveshwar": "7575",
+      "Viraj": "4242",
+      "Shaurya": "9647",
+      "Samarth": "1718",
+      "Abir": "7777",
+      "Aditya": "4356",
+      "Nirvaan": "1441",
+      "Soham": "1881",
+      "Vedant": "4554"
+    };
+
+    function signIn() {
       const user = document.getElementById("username").value;
       const pass = document.getElementById("password").value;
-      
-      if (user === "player" && pass === "1234") {
-        // Load the game
-        document.body.innerHTML = `
-          <h1>Click The Box!</h1>
-          <div id="score">Score: 0</div>
-          <div id="gameArea" style="width:600px;height:400px;margin:30px auto;background:#222;position:relative;border:2px solid #fff;">
-            <div id="box" style="width:50px;height:50px;background:red;position:absolute;cursor:pointer;"></div>
-          </div>
-        `;
 
-        const box = document.getElementById("box");
-        const gameArea = document.getElementById("gameArea");
-        const scoreDisplay = document.getElementById("score");
-        let score = 0;
-
-        function moveBox() {
-          const maxX = gameArea.clientWidth - box.clientWidth;
-          const maxY = gameArea.clientHeight - box.clientHeight;
-          const randX = Math.floor(Math.random() * maxX);
-          const randY = Math.floor(Math.random() * maxY);
-          box.style.left = randX + "px";
-          box.style.top = randY + "px";
-        }
-
-        box.addEventListener("click", () => {
-          score++;
-          scoreDisplay.innerText = "Score: " + score;
-          moveBox();
-        });
-
-        moveBox();
+      if (users[user] === pass) {
+        document.getElementById("login").classList.add("hidden");
+        document.getElementById("game").classList.remove("hidden");
+        moveBox(); // Start game on login
       } else {
-        document.getElementById("error").innerText = "Wrong username or password!";
+        alert("Incorrect username or password!");
       }
     }
+
+    const box = document.getElementById("box");
+    const gameArea = document.getElementById("gameArea");
+    const scoreDisplay = document.getElementById("score");
+    let score = 0;
+
+    function moveBox() {
+      const maxX = gameArea.clientWidth - box.clientWidth;
+      const maxY = gameArea.clientHeight - box.clientHeight;
+      const randX = Math.floor(Math.random() * maxX);
+      const randY = Math.floor(Math.random() * maxY);
+      box.style.left = randX + "px";
+      box.style.top = randY + "px";
+    }
+
+    box.addEventListener("click", () => {
+      score++;
+      scoreDisplay.innerText = "Score: " + score;
+      moveBox();
+    });
   </script>
 
 </body>
