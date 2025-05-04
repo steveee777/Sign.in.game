@@ -57,6 +57,7 @@
 
   <div id="game" class="hidden">
     <h1>Click The Box!</h1>
+    <h3 id="welcomeUser"></h3>
     <div id="score">Score: 0</div>
     <div id="gameArea">
       <div id="box"></div>
@@ -84,7 +85,8 @@
       if (users[user] === pass) {
         document.getElementById("login").classList.add("hidden");
         document.getElementById("game").classList.remove("hidden");
-        moveBox(); // Start game on login
+        document.getElementById("welcomeUser").innerText = `Hi, ${user}!`; // username show
+        moveBox(); // Start game
       } else {
         alert("Incorrect username or password!");
       }
